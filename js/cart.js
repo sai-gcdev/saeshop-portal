@@ -29,11 +29,12 @@ function renderCart() {
         <h3>${item.name}</h3>
         <p><strong>Category:</strong> ${item.category}</p>
         <p><strong>Price:</strong> ₹${item.price}</p>
+        <p><strong>Qty:</strong>
         <div class="cart-controls">
           <button class="decrease-btn">-</button>
           <span>${item.quantity}</span>
           <button class="increase-btn">+</button>
-        </div>
+        </div></p>
       </div>
       <button class="remove-btn" title="Remove">&#10006;</button>
     `;
