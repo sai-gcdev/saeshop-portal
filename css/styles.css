@@ -151,7 +151,8 @@ button:active,
 .proceed-btn:hover,
 #proceed-to-cart-btn:hover,
 #checkout-btn:hover {
-  background: var(--accent-dark);
+  background: linear-gradient(90deg, #b71c1c 60%, #e53935 100%);
+  box-shadow: 0 8px 32px rgba(229,57,53,0.13);
 }
 .add-cart-btn,
 .clear-btn {
@@ -401,6 +402,21 @@ button:disabled,
     right: 8px;
   }
 }
+@media (max-width: 700px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px 10px;
+  }
+  .cart-item img {
+    margin-bottom: 8px;
+  }
+  .remove-btn {
+    top: 10px;
+    right: 10px;
+  }
+}
 
 /* --- Wishlist Page --- */
 .wishlist-list {
@@ -433,17 +449,17 @@ button:disabled,
 }
 .remove-btn {
   position: absolute;
-  top: 10px;
-  right: 14px;
+  top: 18px;
+  right: 24px;
   background: none;
   border: none;
-  font-size: 1.3rem;
-  color: var(--primary);
+  font-size: 1.5rem;
+  color: #e53935;
   cursor: pointer;
-  transition: color var(--transition);
+  transition: color 0.2s;
 }
 .remove-btn:hover {
-  color: var(--primary-dark);
+  color: #b71c1c;
 }
 .clear-btn {
   background: var(--primary);
@@ -454,34 +470,34 @@ button:disabled,
   margin-right: 0;
 }
 
-/* --- Cart Page --- */
+/* --- Stylish Cart Page --- */
 .cart-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: 1fr;
   gap: 32px;
   margin-bottom: 32px;
 }
 .cart-item {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 18px 18px 18px 18px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 24px 32px;
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 32px;
   position: relative;
-  transition: box-shadow var(--transition), transform var(--transition);
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 .cart-item:hover {
   box-shadow: 0 8px 32px rgba(229,57,53,0.10);
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-4px) scale(1.02);
 }
 .cart-item img {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
-  border-radius: 8px;
-  background: #fff;
+  border-radius: 10px;
+  background: #f9f9f9;
   border: 1px solid #eee;
 }
 .cart-details {
@@ -489,13 +505,64 @@ button:disabled,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 8px;
+}
+.cart-details h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.18rem;
+  font-weight: 700;
+}
+.cart-details p {
+  margin: 0;
+  color: #444;
+  font-size: 1.08rem;
 }
 .cart-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 0;
+  margin-top: 10px;
+  background: #f5f5f7;
+  border-radius: 32px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 4px 10px;
+}
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: linear-gradient(135deg, #e53935 60%, #b71c1c 100%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(229,57,53,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qty-btn:active {
+  transform: scale(0.95);
+}
+.qty-btn:disabled {
+  background: #ccc;
+  color: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.cart-qty {
+  min-width: 36px;
+  text-align: center;
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #222;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin: 0 8px;
 }
 .cart-controls button {
   width: 32px;
@@ -516,21 +583,24 @@ button:disabled,
 }
 .cart-summary {
   text-align: right;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: bold;
   margin-top: 16px;
+  color: #333;
 }
 #checkout-btn {
-  background-color: var(--success);
-  color: white;
-  padding: 12px 32px;
+  background: linear-gradient(90deg, #e53935 60%, #b71c1c 100%);
+  color: #fff;
+  padding: 16px 48px;
   border: none;
-  border-radius: var(--radius);
+  border-radius: 32px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
   display: block;
   margin: 32px auto 0 auto;
-  transition: background var(--transition);
+  box-shadow: 0 4px 24px rgba(229,57,53,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 #checkout-btn:hover {
   background-color: var(--success-dark);

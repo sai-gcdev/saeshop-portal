@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
           <h3>${item.name}</h3>
           <p>Price: $${item.price}</p>
           <div class="cart-controls">
-            <button onclick="decreaseQuantity(${index})">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="increaseQuantity(${index})">+</button>
+            <button class="qty-btn" onclick="updateQuantity('PRODUCT_ID', -1)">&#8722;</button>
+            <span class="cart-qty">QUANTITY</span>
+            <button class="qty-btn" onclick="updateQuantity('PRODUCT_ID', 1)">&#43;</button>
           </div>
         </div>
         <button class="remove-btn" onclick="removeItem(${index})">×</button>
