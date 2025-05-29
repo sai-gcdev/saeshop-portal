@@ -111,10 +111,21 @@
   <h1>My Cart</h1>
   <div class="cart-list" id="cart-list"></div>
   <div class="empty-msg" id="empty-msg" style="display:none;">No products in cart.</div>
+  <!-- ...existing code... -->
   <div class="cart-summary" id="cart-summary"></div>
-  <div id="cart-summary"></div>
   <button id="checkout-btn" style="display:none; margin-top:20px;">Checkout</button>
   <div id="checkout-form-container"></div>
   <script src="js/cart.js"></script>
+  <script>
+    // Redirect to checkout.html on checkout
+    document.addEventListener('DOMContentLoaded', function () {
+      const checkoutBtn = document.getElementById('checkout-btn');
+      if (checkoutBtn) {
+        checkoutBtn.onclick = function () {
+          window.location.href = 'checkout.html';
+        };
+      }
+    });
+  </script>
 </body>
 </html>
