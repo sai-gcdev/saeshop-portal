@@ -2,16 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop - SAE Portal</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .filter {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .product:hover {
+      transform: scale(1.03);
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .modal-content img {
+      max-width: 100%;
+    }
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Shop</h1>
-
-  <!-- Filters -->
-  <div class="filters">
-    <select id="categoryFilter">
+  <h1>Shop Products</h1>
+  <div class="filter">
+    <label for="category">Category:</label>
+    <select id="category">
       <option value="All">All</option>
       <option value="Clothing">Clothing</option>
       <option value="Footwear">Footwear</option>
@@ -19,30 +77,19 @@
       <option value="Kitchen">Kitchen</option>
       <option value="Personal Care">Personal Care</option>
     </select>
-
-    <label for="priceFrom">Price From:</label>
-    <input type="number" id="priceFrom" placeholder="₹ From" />
-
-    <label for="priceTo">Price To:</label>
-    <input type="number" id="priceTo" placeholder="₹ To" />
-
-    <button onclick="applyFilters()">Search</button>
   </div>
+  <div class="products" id="product-list"></div>
 
-  <!-- Product Grid -->
-  <div id="productContainer" class="product-grid"></div>
-
-  <!-- Product Modal -->
-  <div id="productModal" class="modal">
+  <div class="modal" id="product-modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <img id="modalImage" src="" alt="Product" />
-      <p id="modalName"></p>
-      <p id="modalCategory"></p>
-      <p id="modalPrice"></p>
+      <h2 id="modal-name"></h2>
+      <p><strong>Category:</strong> <span id="modal-category"></span></p>
+      <p><strong>Price:</strong> <span id="modal-price"></span></p>
+      <img id="modal-image" src="" alt="Product image">
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
