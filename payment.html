@@ -42,6 +42,55 @@
       0% { transform: rotate(0deg);}
       100% { transform: rotate(360deg);}
     }
+    .otp-input {
+      font-size: 1.4rem;
+      letter-spacing: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1.5px solid #e0e0e0;
+      margin: 18px 0 10px 0;
+      width: 180px;
+      text-align: center;
+      outline: none;
+      background: #f7f7fa;
+      transition: border 0.2s;
+    }
+    .otp-input:focus {
+      border: 1.5px solid #e53935;
+      background: #fff;
+    }
+    .otp-error {
+      color: #b71c1c;
+      font-size: 1rem;
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+    .success-message {
+      color: #28a745;
+      font-size: 1.2rem;
+      margin-top: 18px;
+    }
+    .fail-message {
+      color: #b71c1c;
+      font-size: 1.2rem;
+      margin-top: 18px;
+    }
+    .modal-btn {
+      margin-top: 18px;
+      padding: 10px 32px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, #e53935 60%, #b71c1c 100%);
+      color: #fff;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, box-shadow 0.18s;
+      box-shadow: 0 2px 12px rgba(229,57,53,0.08);
+    }
+    .modal-btn:active {
+      background: linear-gradient(90deg, #b71c1c 60%, #e53935 100%);
+    }
   </style>
 </head>
 <body>
@@ -81,11 +130,11 @@
       <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
     </form>
   </div>
-  <!-- Modal for processing payment -->
+  <!-- Modal for processing payment and OTP -->
   <div class="modal-overlay" id="processing-modal">
-    <div class="modal-processing">
+    <div class="modal-processing" id="modal-content">
       <div class="loader"></div>
-      Processing Payment... Please wait.
+      <span id="modal-message">Processing Payment... Please wait.</span>
     </div>
   </div>
   <script>
@@ -120,12 +169,39 @@
       document.getElementById('payment-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var modal = document.getElementById('processing-modal');
+        var modalContent = document.getElementById('modal-content');
+        var modalMessage = document.getElementById('modal-message');
+        // Step 1: Show processing for 5 seconds
         modal.style.display = 'flex';
-        // Simulate payment processing delay for 5 seconds (5000 ms)
+        modalContent.innerHTML = '<div class="loader"></div><span id="modal-message">OTP sent to your registered mobile. Please enter the 6-digit OTP below.</span>' +
+          '<input type="text" id="otp-input" class="otp-input" maxlength="6" autocomplete="one-time-code" inputmode="numeric" pattern="\\d*"/>' +
+          '<div id="otp-error" class="otp-error"></div>' +
+          '<button class="modal-btn" id="submit-otp-btn">Submit OTP</button>';
+        // Focus OTP after a short delay
         setTimeout(function() {
-          modal.style.display = 'none';
-          window.location.href = 'order-summary.html';
-        }, 5000);
+          document.getElementById('otp-input').focus();
+        }, 400);
+
+        // Handle OTP submission
+        document.getElementById('submit-otp-btn').onclick = function(ev) {
+          ev.preventDefault();
+          var otpVal = document.getElementById('otp-input').value.trim();
+          var errorDiv = document.getElementById('otp-error');
+          if (/^\d{6}$/.test(otpVal)) {
+            // Valid OTP: show processing for 5 seconds, then redirect
+            errorDiv.textContent = '';
+            modalContent.innerHTML = '<div class="loader"></div><span id="modal-message">Processing Payment... Please wait.</span>';
+            setTimeout(function() {
+              window.location.href = 'order-summary.html';
+            }, 5000);
+          } else {
+            // Invalid OTP: show error and fail message after 2 seconds
+            errorDiv.textContent = 'Please enter a valid 6-digit OTP.';
+            setTimeout(function() {
+              modalContent.innerHTML = '<div class="fail-message">Payment Failed. Invalid OTP entered.<br><button class="modal-btn" onclick="window.location.reload()">Try Again</button></div>';
+            }, 2000);
+          }
+        };
       });
     });
   </script>
