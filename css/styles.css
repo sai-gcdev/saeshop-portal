@@ -757,3 +757,50 @@ form {
     margin: 10px 0 0 0;
   }
 }
+/* --- Stylish Payment Form --- */
+.payment-form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 36px 32px 28px 32px;
+  max-width: 420px;
+  margin: 0 auto 40px auto;
+  border: 1px solid #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.payment-form label {
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  color: #333;
+}
+.payment-form input[type="text"],
+.payment-form input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 1.08rem;
+  background: #f7f7fa;
+  transition: border 0.2s;
+  margin-bottom: 4px;
+}
+.payment-form input[type="text"]:focus,
+.payment-form input[type="password"]:focus {
+  border: 1.5px solid #e53935;
+  outline: none;
+  background: #fff;
+}
+.payment-form .proceed-btn,
+.payment-form .back-btn,
+.payment-form .cancel-btn {
+  margin-top: 18px;
+}
+@media (max-width: 600px) {
+  .payment-form {
+    padding: 18px 6vw;
+    max-width: 98vw;
+  }
+}

@@ -7,23 +7,38 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <a href="shop.html" class="shop-title">Sa-eShop</a>
-  <div class="nav-links">
-    <a href="shop.html">Shop</a>
-    <a href="wishlist.html">Wishlist</a>
-    <a href="cart.html">Cart</a>
+  <header class="main-header">
+    <a href="shop.html" class="shop-title">Sa-eShop</a>
+    <nav class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Payment Details</h1>
+    <form id="payment-form" class="payment-form">
+      <label for="card-name">Cardholder Name</label>
+      <input type="text" id="card-name" placeholder="Enter name on card" required />
+
+      <label for="card-number">Card Number</label>
+      <input type="text" id="card-number" placeholder="Enter card number" maxlength="19" required />
+
+      <label for="expiry">Expiry Date</label>
+      <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required />
+
+      <label for="cvv">CVV</label>
+      <input type="password" id="cvv" placeholder="CVV" maxlength="4" required />
+
+      <label for="amount">Amount (₹)</label>
+      <input type="text" id="amount" value="₹0.00" readonly />
+
+      <button type="submit" class="proceed-btn">Pay Now</button>
+      <a href="checkout.html" class="back-btn">Back</a>
+      <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
+    </form>
+    <div id="loading-indicator" class="loading" style="display: none;">Processing Payment...</div>
   </div>
-  <h1>Payment</h1>
-  <form id="payment-form">
-    <h2 id="payment-form-title"></h2>
-    <div id="payment-fields">
-      <!-- Payment fields will be dynamically added here -->
-    </div>
-    <button type="submit" class="proceed-btn">Pay Now</button>
-    <a href="checkout.html" class="back-btn">Back</a>
-    <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
-  </form>
-  <div id="loading-indicator" class="loading" style="display: none;">Processing Payment...</div>
   <script src="js/payment.js"></script>
 </body>
 </html>
