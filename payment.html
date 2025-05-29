@@ -5,6 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payment - Sa-eShop</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.45);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-processing {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+      padding: 40px 36px;
+      text-align: center;
+      font-size: 1.3rem;
+      color: #e53935;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 260px;
+    }
+    .modal-processing .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #e53935;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 24px;
+      margin-top: 8px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+  </style>
 </head>
 <body>
   <header class="main-header">
@@ -42,7 +80,13 @@
       <a href="checkout.html" class="back-btn">Back</a>
       <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
     </form>
-    <div id="loading-indicator" class="loading" style="display: none; font-size:1.3rem;">Processing Payment... Please wait.</div>
+  </div>
+  <!-- Modal for processing payment -->
+  <div class="modal-overlay" id="processing-modal">
+    <div class="modal-processing">
+      <div class="loader"></div>
+      Processing Payment... Please wait.
+    </div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -75,13 +119,13 @@
       // Handle Pay Now button
       document.getElementById('payment-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        var loading = document.getElementById('loading-indicator');
-        loading.style.display = 'block';
-        // Simulate payment processing delay for 5 minutes (300000 ms)
+        var modal = document.getElementById('processing-modal');
+        modal.style.display = 'flex';
+        // Simulate payment processing delay for 5 seconds (5000 ms)
         setTimeout(function() {
-          loading.style.display = 'none';
+          modal.style.display = 'none';
           window.location.href = 'order-summary.html';
-        }, 300000);
+        }, 5000);
       });
     });
   </script>
