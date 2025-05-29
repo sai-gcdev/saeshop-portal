@@ -28,15 +28,31 @@ const products = [
 
 const productList = document.getElementById('product-list');
 const categoryFilter = document.getElementById('category');
+const priceFrom = document.getElementById('price-from');
+const priceTo = document.getElementById('price-to');
+const filterBtn = document.getElementById('filter-btn');
 const modal = document.getElementById('product-modal');
 const modalName = document.getElementById('modal-name');
 const modalCategory = document.getElementById('modal-category');
 const modalPrice = document.getElementById('modal-price');
 const modalImage = document.getElementById('modal-image');
 
-function renderProducts(filter) {
+function renderProducts(filterCategory, from, to) {
   productList.innerHTML = '';
-  const filtered = filter === 'All' ? products : products.filter(p => p.category === filter);
+  let filtered = products;
+  if (filterCategory && filterCategory !== 'All') {
+    filtered = filtered.filter(p => p.category === filterCategory);
+  }
+  if (from !== '' && !isNaN(from)) {
+    filtered = filtered.filter(p => p.price >= Number(from));
+  }
+  if (to !== '' && !isNaN(to)) {
+    filtered = filtered.filter(p => p.price <= Number(to));
+  }
+  if (filtered.length === 0) {
+    productList.innerHTML = '<p>No products found.</p>';
+    return;
+  }
   filtered.forEach(p => {
     const div = document.createElement('div');
     div.className = 'product';
@@ -63,7 +79,32 @@ function closeModal() {
 }
 
 categoryFilter.addEventListener('change', () => {
-  renderProducts(categoryFilter.value);
+  renderProducts(
+    categoryFilter.value,
+    priceFrom.value.trim(),
+    priceTo.value.trim()
+  );
+});
+
+filterBtn.addEventListener('click', () => {
+  renderProducts(
+    categoryFilter.value,
+    priceFrom.value.trim(),
+    priceTo.value.trim()
+  );
+});
+
+// Allow pressing Enter in price fields to trigger filter
+[priceFrom, priceTo].forEach(input => {
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      renderProducts(
+        categoryFilter.value,
+        priceFrom.value.trim(),
+        priceTo.value.trim()
+      );
+    }
+  });
 });
 
 window.onclick = function(event) {
@@ -72,4 +113,5 @@ window.onclick = function(event) {
   }
 };
 
-renderProducts('All');
+// Initial render
+renderProducts('All', '', '');
