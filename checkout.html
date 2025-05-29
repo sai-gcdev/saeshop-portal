@@ -85,6 +85,7 @@
       document.getElementById('billing-form').addEventListener('submit', function (e) {
         e.preventDefault();
         localStorage.setItem('selectedPaymentMethod', hiddenInput.value);
+        localStorage.setItem('billingPhone', document.getElementById('billing-phone').value);
         window.location.href = 'payment.html';
       });
     });

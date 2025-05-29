@@ -175,7 +175,7 @@
       // Get phone number from localStorage (set in checkout page)
       var phone = localStorage.getItem('billingPhone');
       var phoneDisplay = '';
-      if (phone) {
+      if (phone && phone.length >= 4) {
         // Mask all but last 2 digits for privacy
         let masked = phone.replace(/\d(?=\d{2})/g, "•");
         phoneDisplay = `<div class="otp-phone">Sent to: <b>${masked}</b></div>`;
