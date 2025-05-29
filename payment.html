@@ -42,7 +42,7 @@
       <a href="checkout.html" class="back-btn">Back</a>
       <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
     </form>
-    <div id="loading-indicator" class="loading" style="display: none;">Processing Payment...</div>
+    <div id="loading-indicator" class="loading" style="display: none; font-size:1.3rem;">Processing Payment... Please wait.</div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -77,11 +77,11 @@
         e.preventDefault();
         var loading = document.getElementById('loading-indicator');
         loading.style.display = 'block';
-        // Simulate payment processing delay
+        // Simulate payment processing delay for 5 minutes (300000 ms)
         setTimeout(function() {
           loading.style.display = 'none';
           window.location.href = 'order-summary.html';
-        }, 1800);
+        }, 300000);
       });
     });
   </script>
