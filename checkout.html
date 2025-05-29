@@ -14,7 +14,7 @@
     h1 { text-align: center; margin-bottom: 20px; }
     form { max-width: 500px; margin: 0 auto 24px auto; background: #fafafa; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
     label { display: block; margin-top: 12px; font-weight: bold; }
-    input[type="text"], input[type="email"] { width: 100%; padding: 8px; margin-top: 4px; border-radius: 4px; border: 1px solid #ccc; }
+    input[type="text"], input[type="email"], input[type="number"] { width: 100%; padding: 8px; margin-top: 4px; border-radius: 4px; border: 1px solid #ccc; }
     .checkbox-row { display: flex; align-items: center; margin-top: 12px; }
     .checkbox-row input[type="checkbox"] { margin-right: 8px; }
     .summary { max-width: 500px; margin: 0 auto 24px auto; background: #f4f4f4; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
@@ -22,6 +22,9 @@
     .summary-item { margin-bottom: 8px; }
     .proceed-btn { display: block; width: 100%; padding: 12px; background: #e53935; color: #fff; border: none; border-radius: 4px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 16px; }
     .proceed-btn:hover { background: #b71c1c; }
+    .payment-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    .payment-option { border: 1px solid #ccc; border-radius: 4px; padding: 8px; cursor: pointer; width: 80px; text-align: center; }
+    .payment-option img { max-width: 100%; height: auto; display: block; margin: 0 auto 5px auto; }
   </style>
 </head>
 <body>
@@ -35,17 +38,17 @@
   <form id="billing-form">
     <h2>Billing Information</h2>
     <label for="billing-name">Full Name</label>
-    <input type="text" id="billing-name" required />
+    <input type="text" id="billing-name" placeholder="John Doe" required />
     <label for="billing-email">Email</label>
-    <input type="email" id="billing-email" required />
+    <input type="email" id="billing-email" placeholder="john.doe@example.com" required />
     <label for="billing-address">Address</label>
-    <input type="text" id="billing-address" required />
+    <input type="text" id="billing-address" placeholder="123 Main St" required />
     <label for="billing-city">City</label>
-    <input type="text" id="billing-city" required />
+    <input type="text" id="billing-city" placeholder="Anytown" required />
     <label for="billing-zip">ZIP/Postal Code</label>
-    <input type="text" id="billing-zip" required />
+    <input type="text" id="billing-zip" placeholder="12345" required />
     <label for="billing-country">Country</label>
-    <input type="text" id="billing-country" required />
+    <input type="text" id="billing-country" placeholder="USA" required />
     <div class="checkbox-row">
       <input type="checkbox" id="same-as-billing" checked />
       <label for="same-as-billing" style="font-weight:normal; margin:0;">Delivery address same as billing</label>
@@ -53,19 +56,31 @@
     <div id="delivery-form-container" style="display:none;">
       <h2>Delivery Information</h2>
       <label for="delivery-name">Full Name</label>
-      <input type="text" id="delivery-name" />
+      <input type="text" id="delivery-name" placeholder="John Doe" />
       <label for="delivery-address">Address</label>
-      <input type="text" id="delivery-address" />
+      <input type="text" id="delivery-address" placeholder="123 Main St" />
       <label for="delivery-city">City</label>
-      <input type="text" id="delivery-city" />
+      <input type="text" id="delivery-city" placeholder="Anytown" />
       <label for="delivery-zip">ZIP/Postal Code</label>
-      <input type="text" id="delivery-zip" />
+      <input type="text" id="delivery-zip" placeholder="12345" />
       <label for="delivery-country">Country</label>
-      <input type="text" id="delivery-country" />
+      <input type="text" id="delivery-country" placeholder="USA" />
     </div>
-    <button type="submit" class="proceed-btn">Continue</button>
+    <button type="submit" class="proceed-btn">Continue to Payment</button>
   </form>
   <div id="summary-section" class="summary" style="display:none;"></div>
+  <div id="payment-options-section" style="display: none;">
+    <h2>Select Payment Method</h2>
+    <div class="payment-options">
+      <div class="payment-option" data-payment-method="credit-card">
+        <img src="img/visa.png" alt="Visa" /><br>Credit Card
+      </div>
+      <div class="payment-option" data-payment-method="upi">
+        <img src="img/gpay.png" alt="GPay" /><br>UPI
+      </div>
+      <!-- Add more payment options here -->
+    </div>
+  </div>
   <script src="js/checkout.js"></script>
 </body>
 </html>

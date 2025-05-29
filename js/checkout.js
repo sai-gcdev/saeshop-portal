@@ -3,21 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
   const deliveryFormContainer = document.getElementById('delivery-form-container');
   const billingForm = document.getElementById('billing-form');
   const summarySection = document.getElementById('summary-section');
+  const paymentOptionsSection = document.getElementById('payment-options-section');
 
   // Show/hide delivery form
   sameAsBilling.addEventListener('change', function () {
     deliveryFormContainer.style.display = this.checked ? 'none' : 'block';
-    // Set required fields
     Array.from(deliveryFormContainer.querySelectorAll('input')).forEach(input => {
       input.required = !this.checked;
     });
   });
 
-  // On form submit, show summary
+  // On billing form submit, show summary and payment options
   billingForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Get billing info
     const billing = {
       name: document.getElementById('billing-name').value,
       email: document.getElementById('billing-email').value,
@@ -27,11 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
       country: document.getElementById('billing-country').value
     };
 
-    // Get delivery info
     let delivery;
     if (sameAsBilling.checked) {
       delivery = { ...billing };
-      delete delivery.email; // Email not needed for delivery
+      delete delivery.email;
     } else {
       delivery = {
         name: document.getElementById('delivery-name').value,
@@ -42,11 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
       };
     }
 
-    // Get total cost from localStorage (set by cart.js)
     let totalCost = localStorage.getItem('cartTotal') || '0.00';
-    totalCost = parseFloat(totalCost).toFixed(2); // Ensure it's a number with 2 decimals
+    totalCost = parseFloat(totalCost).toFixed(2);
 
-    // Build summary HTML
     summarySection.innerHTML = `
       <h2>Order Summary</h2>
       <div class="summary-item"><strong>Billing Information</strong><br>
@@ -59,14 +55,22 @@ document.addEventListener('DOMContentLoaded', function () {
         ${delivery.address}, ${delivery.city}, ${delivery.zip}, ${delivery.country}
       </div>
       <div class="summary-item"><strong>Total Cost:</strong> Rs ${totalCost}</div>
-      <button id="proceed-payment-btn" class="proceed-btn">Proceed to Payment</button>
     `;
+
     billingForm.style.display = 'none';
     summarySection.style.display = 'block';
+    paymentOptionsSection.style.display = 'block';
+  });
 
-    document.getElementById('proceed-payment-btn').onclick = function () {
-      alert('Proceeding to payment gateway...');
-      // Redirect or handle payment here
-    };
+  // Payment option selection
+  paymentOptionsSection.addEventListener('click', function (e) {
+    const paymentOption = e.target.closest('.payment-option');
+    if (paymentOption) {
+      const paymentMethod = paymentOption.dataset.paymentMethod;
+      // Store payment method in localStorage
+      localStorage.setItem('paymentMethod', paymentMethod);
+      // Redirect to payment page
+      window.location.href = 'payment.html';
+    }
   });
 });
