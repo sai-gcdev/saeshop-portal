@@ -50,24 +50,44 @@
         <label for="delivery-country">Country</label>
         <input type="text" id="delivery-country" placeholder="Enter delivery country" />
       </div>
+      <h2>Select Payment Method</h2>
+      <div class="payment-options">
+        <div class="payment-option" data-payment-method="card" tabindex="0">
+          <img src="img/visa.png" alt="Visa" /><br>Credit/Debit Card
+        </div>
+        <div class="payment-option" data-payment-method="upi" tabindex="0">
+          <img src="img/gpay.png" alt="GPay" /><br>UPI
+        </div>
+      </div>
+      <input type="hidden" id="selected-payment-method" name="selected-payment-method" value="card" />
       <button type="submit" class="proceed-btn">Continue to Payment</button>
       <a href="cart.html" class="back-btn">Back</a>
       <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
     </form>
-    <div id="summary-section" class="summary" style="display:none;"></div>
-    <div id="payment-options-section" style="display: none;">
-      <h2>Select Payment Method</h2>
-      <div class="payment-options">
-        <div class="payment-option" data-payment-method="credit-card">
-          <img src="images/visa.png" alt="Visa" /><br>Credit Card
-        </div>
-        <div class="payment-option" data-payment-method="upi">
-          <img src="images/gpay.png" alt="GPay" /><br>UPI
-        </div>
-        <!-- Add more payment options here -->
-      </div>
-    </div>
   </div>
-  <script src="js/checkout.js"></script>
+  <script>
+    // Payment method selection logic
+    document.addEventListener('DOMContentLoaded', function () {
+      const paymentOptions = document.querySelectorAll('.payment-option');
+      const hiddenInput = document.getElementById('selected-payment-method');
+      paymentOptions.forEach(option => {
+        option.addEventListener('click', function () {
+          paymentOptions.forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
+          hiddenInput.value = this.getAttribute('data-payment-method');
+        });
+      });
+      // Default selection
+      paymentOptions[0].classList.add('active');
+      hiddenInput.value = paymentOptions[0].getAttribute('data-payment-method');
+
+      // On submit, store selected payment method and go to payment page
+      document.getElementById('billing-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        localStorage.setItem('selectedPaymentMethod', hiddenInput.value);
+        window.location.href = 'payment.html';
+      });
+    });
+  </script>
 </body>
 </html>

@@ -17,16 +17,8 @@
   </header>
   <div class="container">
     <h1>Payment Details</h1>
-    <div class="payment-options" style="margin-bottom:24px;">
-      <div class="payment-option" id="select-card" tabindex="0" style="outline:none;">
-        <img src="img/visa.png" alt="Visa" /><br>Credit/Debit Card
-      </div>
-      <div class="payment-option" id="select-upi" tabindex="0" style="outline:none;">
-        <img src="img/gpay.png" alt="GPay" /><br>UPI
-      </div>
-    </div>
     <form id="payment-form" class="payment-form">
-      <div id="card-fields">
+      <div id="card-fields" style="display:none;">
         <label for="card-name">Cardholder Name</label>
         <input type="text" id="card-name" placeholder="Enter name on card" required />
 
@@ -53,48 +45,33 @@
     <div id="loading-indicator" class="loading" style="display: none;">Processing Payment...</div>
   </div>
   <script>
-    // Set the amount field to the cart total in Rupees
     document.addEventListener('DOMContentLoaded', function () {
+      // Set the amount field to the cart total in Rupees
       var amt = localStorage.getItem('cartTotal') || "0.00";
       document.getElementById('amount').value = `₹${parseFloat(amt).toFixed(2)}`;
 
-      // Payment method switching
-      const cardFields = document.getElementById('card-fields');
-      const upiFields = document.getElementById('upi-fields');
-      const selectCard = document.getElementById('select-card');
-      const selectUpi = document.getElementById('select-upi');
-
-      function selectPayment(method) {
-        if (method === 'card') {
-          cardFields.style.display = '';
-          upiFields.style.display = 'none';
-          selectCard.classList.add('active');
-          selectUpi.classList.remove('active');
-          // Make card fields required, upi not required
-          document.getElementById('card-name').required = true;
-          document.getElementById('card-number').required = true;
-          document.getElementById('expiry').required = true;
-          document.getElementById('cvv').required = true;
-          document.getElementById('upi-id').required = false;
-        } else {
-          cardFields.style.display = 'none';
-          upiFields.style.display = '';
-          selectCard.classList.remove('active');
-          selectUpi.classList.add('active');
-          // Make upi required, card fields not required
-          document.getElementById('card-name').required = false;
-          document.getElementById('card-number').required = false;
-          document.getElementById('expiry').required = false;
-          document.getElementById('cvv').required = false;
-          document.getElementById('upi-id').required = true;
-        }
+      // Show only the relevant payment fields
+      var method = localStorage.getItem('selectedPaymentMethod') || 'card';
+      var cardFields = document.getElementById('card-fields');
+      var upiFields = document.getElementById('upi-fields');
+      if (method === 'upi') {
+        cardFields.style.display = 'none';
+        upiFields.style.display = '';
+        // Set required attributes
+        document.getElementById('upi-id').required = true;
+        document.getElementById('card-name').required = false;
+        document.getElementById('card-number').required = false;
+        document.getElementById('expiry').required = false;
+        document.getElementById('cvv').required = false;
+      } else {
+        cardFields.style.display = '';
+        upiFields.style.display = 'none';
+        document.getElementById('upi-id').required = false;
+        document.getElementById('card-name').required = true;
+        document.getElementById('card-number').required = true;
+        document.getElementById('expiry').required = true;
+        document.getElementById('cvv').required = true;
       }
-
-      selectCard.addEventListener('click', function() { selectPayment('card'); });
-      selectUpi.addEventListener('click', function() { selectPayment('upi'); });
-
-      // Default to card
-      selectPayment('card');
     });
   </script>
   <script src="js/payment.js"></script>
