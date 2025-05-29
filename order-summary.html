@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Summary - Sa-eShop</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .shop-title { color: red; text-decoration: none; font-size: 2.5rem; font-weight: bold; display: block; text-align: center; margin-bottom: 10px; }
+    .nav-links { text-align: center; margin-bottom: 20px; }
+    .nav-links a { margin: 0 12px; color: #333; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+    .nav-links a:hover { color: #d00; text-decoration: underline; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .summary-item { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <a href="shop.html" class="shop-title">Sa-eShop</a>
+  <div class="nav-links">
+    <a href="shop.html">Shop</a>
+    <a href="wishlist.html">Wishlist</a>
+    <a href="cart.html">Cart</a>
+  </div>
+  <h1>Order Summary</h1>
+  <div id="order-details">
+    <!-- Order details will be dynamically added here -->
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const orderDetails = document.getElementById('order-details');
+      const urlParams = new URLSearchParams(window.location.search);
+      const totalCost = urlParams.get('total');
+
+      orderDetails.innerHTML = `
+        <div class="summary-item"><strong>Order ID:</strong> #123456789</div>
+        <div class="summary-item"><strong>Delivery Date:</strong> June 5, 2025</div>
+        <div class="summary-item"><strong>Total Cost:</strong> Rs ${parseFloat(totalCost).toFixed(2)}</div>
+        <p>Thank you for your order!</p>
+      `;
+    });
+  </script>
+</body>
+</html>
