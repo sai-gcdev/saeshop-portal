@@ -32,9 +32,25 @@
       const urlParams = new URLSearchParams(window.location.search);
       const totalCost = urlParams.get('total');
 
+      // Generate Order ID
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const orderId = `ORDRXXXXXX${hours}${minutes}${seconds}`;
+
+      // Calculate Delivery Date (4 days from now)
+      const deliveryDate = new Date(now);
+      deliveryDate.setDate(now.getDate() + 4);
+      const deliveryDateString = deliveryDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
       orderDetails.innerHTML = `
-        <div class="summary-item"><strong>Order ID:</strong> #123456789</div>
-        <div class="summary-item"><strong>Delivery Date:</strong> June 5, 2025</div>
+        <div class="summary-item"><strong>Order ID:</strong> ${orderId}</div>
+        <div class="summary-item"><strong>Delivery Date:</strong> ${deliveryDateString}</div>
         <div class="summary-item"><strong>Total Cost:</strong> Rs ${parseFloat(totalCost).toFixed(2)}</div>
         <p>Thank you for your order!</p>
       `;
