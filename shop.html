@@ -27,6 +27,21 @@
     .shop-title:hover {
       text-decoration: underline;
     }
+    .nav-links {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .nav-links a {
+      margin: 0 12px;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .nav-links a:hover {
+      color: #d00;
+      text-decoration: underline;
+    }
     .filter {
       margin: 20px 0 10px 0;
       text-align: center;
@@ -113,6 +128,43 @@
       margin: 4px 0;
       font-size: 1rem;
     }
+    .modal-actions {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .heart-btn {
+      background: none;
+      border: none;
+      font-size: 1.7rem;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.2s;
+      padding: 0;
+    }
+    .heart-btn.red {
+      color: #e53935;
+    }
+    .heart-btn.white {
+      color: #bbb;
+    }
+    .add-cart-btn {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 7px 18px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-cart-btn:disabled {
+      background: #ccc;
+      color: #fff;
+      cursor: not-allowed;
+    }
     .close {
       position: absolute;
       top: 10px;
@@ -147,6 +199,11 @@
 </head>
 <body>
   <a href="shop.html" class="shop-title">Sa-eShop</a>
+  <div class="nav-links">
+    <a href="shop.html">Shop</a>
+    <a href="wishlist.html">Wishlist</a>
+    <a href="cart.html">Cart</a>
+  </div>
   <h1>Shop Products</h1>
   <div class="filter">
     <label for="category">Category:</label>
@@ -175,6 +232,10 @@
         <h2 id="modal-name"></h2>
         <p><strong>Category:</strong> <span id="modal-category"></span></p>
         <p><strong>Price:</strong> <span id="modal-price"></span></p>
+        <div class="modal-actions">
+          <button id="wishlist-btn" class="heart-btn white" title="Add to Wishlist">&#9825;</button>
+          <button id="add-cart-btn" class="add-cart-btn">Add to Cart</button>
+        </div>
       </div>
     </div>
   </div>

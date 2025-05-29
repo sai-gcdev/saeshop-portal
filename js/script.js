@@ -36,6 +36,23 @@ const modalName = document.getElementById('modal-name');
 const modalCategory = document.getElementById('modal-category');
 const modalPrice = document.getElementById('modal-price');
 const modalImage = document.getElementById('modal-image');
+const wishlistBtn = document.getElementById('wishlist-btn');
+const addCartBtn = document.getElementById('add-cart-btn');
+
+let currentProduct = null;
+
+function getWishlist() {
+  return JSON.parse(localStorage.getItem('wishlist') || '[]');
+}
+function setWishlist(arr) {
+  localStorage.setItem('wishlist', JSON.stringify(arr));
+}
+function getCart() {
+  return JSON.parse(localStorage.getItem('cart') || '[]');
+}
+function setCart(arr) {
+  localStorage.setItem('cart', JSON.stringify(arr));
+}
 
 function renderProducts(filterCategory, from, to) {
   productList.innerHTML = '';
@@ -67,16 +84,57 @@ function renderProducts(filterCategory, from, to) {
 }
 
 function openModal(product) {
+  currentProduct = product;
   modalName.textContent = product.name;
   modalCategory.textContent = product.category;
   modalPrice.textContent = `₹${product.price}`;
   modalImage.src = product.image;
+
+  // Wishlist heart
+  const wishlist = getWishlist();
+  const inWishlist = wishlist.some(p => p.name === product.name);
+  wishlistBtn.innerHTML = inWishlist ? '&#10084;' : '&#9825;';
+  wishlistBtn.className = 'heart-btn ' + (inWishlist ? 'red' : 'white');
+  wishlistBtn.disabled = false;
+
+  // Add to cart button
+  const cart = getCart();
+  const inCart = cart.some(p => p.name === product.name);
+  addCartBtn.disabled = inWishlist || inCart;
+  addCartBtn.textContent = inCart ? 'Added to Cart' : 'Add to Cart';
+
   modal.style.display = 'flex';
 }
 
 function closeModal() {
   modal.style.display = 'none';
+  currentProduct = null;
 }
+
+wishlistBtn.onclick = function(e) {
+  e.stopPropagation();
+  if (!currentProduct) return;
+  let wishlist = getWishlist();
+  const idx = wishlist.findIndex(p => p.name === currentProduct.name);
+  if (idx === -1) {
+    wishlist.push(currentProduct);
+  } else {
+    wishlist.splice(idx, 1);
+  }
+  setWishlist(wishlist);
+  openModal(currentProduct);
+};
+
+addCartBtn.onclick = function(e) {
+  e.stopPropagation();
+  if (!currentProduct) return;
+  let cart = getCart();
+  if (!cart.some(p => p.name === currentProduct.name)) {
+    cart.push({ ...currentProduct, quantity: 1 });
+    setCart(cart);
+    openModal(currentProduct);
+  }
+};
 
 categoryFilter.addEventListener('change', () => {
   renderProducts(
@@ -94,7 +152,6 @@ filterBtn.addEventListener('click', () => {
   );
 });
 
-// Allow pressing Enter in price fields to trigger filter
 [priceFrom, priceTo].forEach(input => {
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
