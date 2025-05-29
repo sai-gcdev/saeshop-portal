@@ -7,23 +7,29 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <a href="shop.html" class="shop-title">Sa-eShop</a>
-  <div class="nav-links">
-    <a href="shop.html">Shop</a>
-    <a href="wishlist.html">Wishlist</a>
-    <a href="cart.html">Cart</a>
+  <header class="main-header">
+    <a href="shop.html" class="shop-title">Sa-eShop</a>
+    <nav class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+  <div class="container" style="max-width: 500px;">
+    <h1>Order Summary</h1>
+    <div id="order-details">
+      <!-- Order details will be dynamically added here -->
+    </div>
+    <a href="shop.html" class="proceed-btn" style="margin-top:32px;">Continue Shopping</a>
   </div>
-  <h1>Order Summary</h1>
-  <div id="order-details">
-    <!-- Order details will be dynamically added here -->
-  </div>
-  <a href="checkout.html" class="back-btn">Back</a>
-  <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const orderDetails = document.getElementById('order-details');
-      const urlParams = new URLSearchParams(window.location.search);
-      const totalCost = urlParams.get('total');
+      // Try to get total from URL, else from localStorage
+      let totalCost = new URLSearchParams(window.location.search).get('total');
+      if (!totalCost || isNaN(parseFloat(totalCost))) {
+        totalCost = localStorage.getItem('cartTotal') || "0.00";
+      }
 
       // Generate Order ID
       const now = new Date();
@@ -35,7 +41,7 @@
       // Calculate Delivery Date (4 days from now)
       const deliveryDate = new Date(now);
       deliveryDate.setDate(now.getDate() + 4);
-      const deliveryDateString = deliveryDate.toLocaleDateString('en-US', {
+      const deliveryDateString = deliveryDate.toLocaleDateString('en-IN', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -44,9 +50,13 @@
       orderDetails.innerHTML = `
         <div class="summary-item"><strong>Order ID:</strong> ${orderId}</div>
         <div class="summary-item"><strong>Delivery Date:</strong> ${deliveryDateString}</div>
-        <div class="summary-item"><strong>Total Cost:</strong> Rs ${parseFloat(totalCost).toFixed(2)}</div>
-        <p>Thank you for your order!</p>
+        <div class="summary-item"><strong>Total Cost:</strong> ₹${parseFloat(totalCost).toFixed(2)}</div>
+        <p style="margin-top:24px;font-size:1.15rem;">Thank you for your order!<br>Your items will be delivered soon.</p>
       `;
+
+      // Optionally clear cart after order
+      localStorage.removeItem('cart');
+      localStorage.removeItem('cartTotal');
     });
   </script>
 </body>
