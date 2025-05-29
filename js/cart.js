@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
           <h3>${item.name}</h3>
           <p>Price: $${item.price}</p>
           <div class="cart-controls">
-            <button class="qty-btn" onclick="updateQuantity('PRODUCT_ID', -1)">&#8722;</button>
-            <span class="cart-qty">QUANTITY</span>
-            <button class="qty-btn" onclick="updateQuantity('PRODUCT_ID', 1)">&#43;</button>
+            <button class="qty-btn" onclick="window.updateQuantity(${index}, -1)">&#8722;</button>
+            <span class="cart-qty">${item.quantity}</span>
+            <button class="qty-btn" onclick="window.updateQuantity(${index}, 1)">&#43;</button>
           </div>
         </div>
-        <button class="remove-btn" onclick="removeItem(${index})">×</button>
+        <button class="remove-btn" onclick="window.removeItem(${index})">&times;</button>
       `;
       cartList.appendChild(cartItemDiv);
       total += item.price * item.quantity;
@@ -47,28 +47,20 @@ document.addEventListener('DOMContentLoaded', function () {
     localStorage.setItem('cartTotal', total.toFixed(2)); // Store total in localStorage
   }
 
-  // Example functions (you might already have these)
-  window.increaseQuantity = function (index) {
-    cart[index].quantity++;
-    updateCart();
-  };
-
-  window.decreaseQuantity = function (index) {
-    if (cart[index].quantity > 1) {
-      cart[index].quantity--;
-      updateCart();
-    }
+  // Quantity update function
+  window.updateQuantity = function (index, change) {
+    if (!cart[index]) return;
+    cart[index].quantity += change;
+    if (cart[index].quantity < 1) cart[index].quantity = 1;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
   };
 
   window.removeItem = function (index) {
     cart.splice(index, 1);
-    updateCart();
-  };
-
-  function updateCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartDisplay();
-  }
+  };
 
   updateCartDisplay(); // Initial cart display
 });
