@@ -91,6 +91,13 @@
     .modal-btn:active {
       background: linear-gradient(90deg, #b71c1c 60%, #e53935 100%);
     }
+    .otp-phone {
+      color: #222;
+      font-size: 1.08rem;
+      margin-top: 8px;
+      margin-bottom: 0;
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 <body>
@@ -165,19 +172,28 @@
         document.getElementById('cvv').required = true;
       }
 
+      // Get phone number from localStorage (set in checkout page)
+      var phone = localStorage.getItem('billingPhone');
+      var phoneDisplay = '';
+      if (phone) {
+        // Mask all but last 2 digits for privacy
+        let masked = phone.replace(/\d(?=\d{2})/g, "•");
+        phoneDisplay = `<div class="otp-phone">Sent to: <b>${masked}</b></div>`;
+      }
+
       // Handle Pay Now button
       document.getElementById('payment-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var modal = document.getElementById('processing-modal');
         var modalContent = document.getElementById('modal-content');
-        var modalMessage = document.getElementById('modal-message');
-        // Step 1: Show processing for 5 seconds
+        // Step 1: Show OTP sent message with phone number
         modal.style.display = 'flex';
-        modalContent.innerHTML = '<div class="loader"></div><span id="modal-message">OTP sent to your registered mobile. Please enter the 6-digit OTP below.</span>' +
+        modalContent.innerHTML = '<div class="loader"></div>' +
+          '<span id="modal-message">OTP sent to your registered mobile.</span>' +
+          phoneDisplay +
           '<input type="text" id="otp-input" class="otp-input" maxlength="6" autocomplete="one-time-code" inputmode="numeric" pattern="\\d*"/>' +
           '<div id="otp-error" class="otp-error"></div>' +
           '<button class="modal-btn" id="submit-otp-btn">Submit OTP</button>';
-        // Focus OTP after a short delay
         setTimeout(function() {
           document.getElementById('otp-input').focus();
         }, 400);
