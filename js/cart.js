@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-details">
           <h3>${item.name}</h3>
-          <p>Price: $${item.price}</p>
+          <p>Price: ₹${item.price}</p>
           <div class="cart-controls">
             <button class="qty-btn" onclick="window.updateQuantity(${index}, -1)">&#8722;</button>
             <span class="cart-qty">${item.quantity}</span>
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
       total += item.price * item.quantity;
     });
 
-    cartSummary.textContent = `Total: $${total.toFixed(2)}`;
+    cartSummary.textContent = `Total: ₹${total.toFixed(2)}`;
     localStorage.setItem('cartTotal', total.toFixed(2)); // Store total in localStorage
   }
 

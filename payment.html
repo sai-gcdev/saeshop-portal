@@ -31,7 +31,7 @@
       <input type="password" id="cvv" placeholder="CVV" maxlength="4" required />
 
       <label for="amount">Amount (₹)</label>
-      <input type="text" id="amount" value="₹0.00" readonly />
+      <input type="text" id="amount" readonly />
 
       <button type="submit" class="proceed-btn">Pay Now</button>
       <a href="checkout.html" class="back-btn">Back</a>
@@ -39,6 +39,13 @@
     </form>
     <div id="loading-indicator" class="loading" style="display: none;">Processing Payment...</div>
   </div>
+  <script>
+    // Set the amount field to the cart total in Rupees
+    document.addEventListener('DOMContentLoaded', function () {
+      var amt = localStorage.getItem('cartTotal') || "0.00";
+      document.getElementById('amount').value = `₹${parseFloat(amt).toFixed(2)}`;
+    });
+  </script>
   <script src="js/payment.js"></script>
 </body>
 </html>
