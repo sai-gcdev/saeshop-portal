@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Get total cost from localStorage (set by cart.js)
-    const totalCost = localStorage.getItem('cartTotal') || '0.00';
+    let totalCost = localStorage.getItem('cartTotal') || '0.00';
+    totalCost = parseFloat(totalCost).toFixed(2); // Ensure it's a number with 2 decimals
 
     // Build summary HTML
     summarySection.innerHTML = `
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ${delivery.name}<br>
         ${delivery.address}, ${delivery.city}, ${delivery.zip}, ${delivery.country}
       </div>
-      <div class="summary-item"><strong>Total Cost:</strong> $${parseFloat(totalCost).toFixed(2)}</div>
+      <div class="summary-item"><strong>Total Cost:</strong> Rs ${totalCost}</div>
       <button id="proceed-payment-btn" class="proceed-btn">Proceed to Payment</button>
     `;
     billingForm.style.display = 'none';
