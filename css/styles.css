@@ -804,3 +804,8 @@ form {
     max-width: 98vw;
   }
 }
+.payment-option.active {
+  border: 2px solid #e53935;
+  box-shadow: 0 2px 12px rgba(229,57,53,0.13);
+  background: #fff5f5;
+}

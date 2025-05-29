@@ -17,19 +17,32 @@
   </header>
   <div class="container">
     <h1>Payment Details</h1>
+    <div class="payment-options" style="margin-bottom:24px;">
+      <div class="payment-option" id="select-card" tabindex="0" style="outline:none;">
+        <img src="img/visa.png" alt="Visa" /><br>Credit/Debit Card
+      </div>
+      <div class="payment-option" id="select-upi" tabindex="0" style="outline:none;">
+        <img src="img/gpay.png" alt="GPay" /><br>UPI
+      </div>
+    </div>
     <form id="payment-form" class="payment-form">
-      <label for="card-name">Cardholder Name</label>
-      <input type="text" id="card-name" placeholder="Enter name on card" required />
+      <div id="card-fields">
+        <label for="card-name">Cardholder Name</label>
+        <input type="text" id="card-name" placeholder="Enter name on card" required />
 
-      <label for="card-number">Card Number</label>
-      <input type="text" id="card-number" placeholder="Enter card number" maxlength="19" required />
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" placeholder="Enter card number" maxlength="19" required />
 
-      <label for="expiry">Expiry Date</label>
-      <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required />
+        <label for="expiry">Expiry Date</label>
+        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required />
 
-      <label for="cvv">CVV</label>
-      <input type="password" id="cvv" placeholder="CVV" maxlength="4" required />
-
+        <label for="cvv">CVV</label>
+        <input type="password" id="cvv" placeholder="CVV" maxlength="4" required />
+      </div>
+      <div id="upi-fields" style="display:none;">
+        <label for="upi-id">UPI ID</label>
+        <input type="text" id="upi-id" placeholder="Enter your UPI ID" required />
+      </div>
       <label for="amount">Amount (₹)</label>
       <input type="text" id="amount" readonly />
 
@@ -44,6 +57,44 @@
     document.addEventListener('DOMContentLoaded', function () {
       var amt = localStorage.getItem('cartTotal') || "0.00";
       document.getElementById('amount').value = `₹${parseFloat(amt).toFixed(2)}`;
+
+      // Payment method switching
+      const cardFields = document.getElementById('card-fields');
+      const upiFields = document.getElementById('upi-fields');
+      const selectCard = document.getElementById('select-card');
+      const selectUpi = document.getElementById('select-upi');
+
+      function selectPayment(method) {
+        if (method === 'card') {
+          cardFields.style.display = '';
+          upiFields.style.display = 'none';
+          selectCard.classList.add('active');
+          selectUpi.classList.remove('active');
+          // Make card fields required, upi not required
+          document.getElementById('card-name').required = true;
+          document.getElementById('card-number').required = true;
+          document.getElementById('expiry').required = true;
+          document.getElementById('cvv').required = true;
+          document.getElementById('upi-id').required = false;
+        } else {
+          cardFields.style.display = 'none';
+          upiFields.style.display = '';
+          selectCard.classList.remove('active');
+          selectUpi.classList.add('active');
+          // Make upi required, card fields not required
+          document.getElementById('card-name').required = false;
+          document.getElementById('card-number').required = false;
+          document.getElementById('expiry').required = false;
+          document.getElementById('cvv').required = false;
+          document.getElementById('upi-id').required = true;
+        }
+      }
+
+      selectCard.addEventListener('click', function() { selectPayment('card'); });
+      selectUpi.addEventListener('click', function() { selectPayment('upi'); });
+
+      // Default to card
+      selectPayment('card');
     });
   </script>
   <script src="js/payment.js"></script>
