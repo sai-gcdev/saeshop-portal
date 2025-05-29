@@ -13,6 +13,31 @@
     .nav-links a:hover { color: #d00; text-decoration: underline; }
     h1 { text-align: center; margin-bottom: 20px; }
     .summary-item { margin-bottom: 8px; }
+    .back-btn, .cancel-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+    }
+    .back-btn {
+      background-color: #6c757d; /* Gray */
+    }
+    .cancel-btn {
+      background-color: #dc3545; /* Red */
+      margin-left: 10px;
+    }
+    .back-btn:hover {
+      background-color: #5a6268;
+    }
+    .cancel-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
@@ -26,6 +51,8 @@
   <div id="order-details">
     <!-- Order details will be dynamically added here -->
   </div>
+  <a href="checkout.html" class="back-btn">Back</a>
+  <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const orderDetails = document.getElementById('order-details');

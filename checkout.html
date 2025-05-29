@@ -25,6 +25,31 @@
     .payment-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
     .payment-option { border: 1px solid #ccc; border-radius: 4px; padding: 8px; cursor: pointer; width: 80px; text-align: center; }
     .payment-option img { max-width: 100%; height: auto; display: block; margin: 0 auto 5px auto; }
+    .back-btn, .cancel-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+    }
+    .back-btn {
+      background-color: #6c757d; /* Gray */
+    }
+    .cancel-btn {
+      background-color: #dc3545; /* Red */
+      margin-left: 10px;
+    }
+    .back-btn:hover {
+      background-color: #5a6268;
+    }
+    .cancel-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +92,8 @@
       <input type="text" id="delivery-country" placeholder="USA" />
     </div>
     <button type="submit" class="proceed-btn">Continue to Payment</button>
+    <a href="cart.html" class="back-btn">Back</a>
+    <button type="button" class="cancel-btn" onclick="window.location.href='cart.html'">Cancel</button>
   </form>
   <div id="summary-section" class="summary" style="display:none;"></div>
   <div id="payment-options-section" style="display: none;">
