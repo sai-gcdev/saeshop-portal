@@ -218,8 +218,6 @@
       function toggleDeliveryForm() {
         if (sameAsBilling.checked) {
           deliveryForm.style.display = 'none';
-          // Optionally clear delivery fields
-          deliveryForm.querySelectorAll('input').forEach(input => input.value = '');
         } else {
           deliveryForm.style.display = '';
         }
@@ -227,11 +225,53 @@
       sameAsBilling.addEventListener('change', toggleDeliveryForm);
       toggleDeliveryForm();
 
-      // On submit, store selected payment method and phone, then go to payment page
+      // Restore form data from localStorage if available
+      function restoreField(id, key) {
+        const el = document.getElementById(id);
+        if (el && localStorage.getItem(key)) el.value = localStorage.getItem(key);
+      }
+      restoreField('billing-name', 'billingName');
+      restoreField('billing-email', 'billingEmail');
+      restoreField('billing-phone', 'billingPhone');
+      restoreField('billing-address', 'billingAddress');
+      restoreField('billing-city', 'billingCity');
+      restoreField('billing-zip', 'billingZip');
+      restoreField('billing-country', 'billingCountry');
+      if (localStorage.getItem('sameAsBilling') === '0') {
+        sameAsBilling.checked = false;
+        toggleDeliveryForm();
+        restoreField('delivery-name', 'deliveryName');
+        restoreField('delivery-address', 'deliveryAddress');
+        restoreField('delivery-city', 'deliveryCity');
+        restoreField('delivery-zip', 'deliveryZip');
+        restoreField('delivery-country', 'deliveryCountry');
+      }
+
+      // On submit, store all form data in localStorage, then go to payment page
       document.getElementById('billing-form').addEventListener('submit', function (e) {
         e.preventDefault();
         localStorage.setItem('selectedPaymentMethod', hiddenInput.value);
+        localStorage.setItem('billingName', document.getElementById('billing-name').value);
+        localStorage.setItem('billingEmail', document.getElementById('billing-email').value);
         localStorage.setItem('billingPhone', document.getElementById('billing-phone').value);
+        localStorage.setItem('billingAddress', document.getElementById('billing-address').value);
+        localStorage.setItem('billingCity', document.getElementById('billing-city').value);
+        localStorage.setItem('billingZip', document.getElementById('billing-zip').value);
+        localStorage.setItem('billingCountry', document.getElementById('billing-country').value);
+        localStorage.setItem('sameAsBilling', sameAsBilling.checked ? '1' : '0');
+        if (!sameAsBilling.checked) {
+          localStorage.setItem('deliveryName', document.getElementById('delivery-name').value);
+          localStorage.setItem('deliveryAddress', document.getElementById('delivery-address').value);
+          localStorage.setItem('deliveryCity', document.getElementById('delivery-city').value);
+          localStorage.setItem('deliveryZip', document.getElementById('delivery-zip').value);
+          localStorage.setItem('deliveryCountry', document.getElementById('delivery-country').value);
+        } else {
+          localStorage.removeItem('deliveryName');
+          localStorage.removeItem('deliveryAddress');
+          localStorage.removeItem('deliveryCity');
+          localStorage.removeItem('deliveryZip');
+          localStorage.removeItem('deliveryCountry');
+        }
         window.location.href = 'payment.html';
       });
     });
